@@ -1,0 +1,14 @@
+ public function getAllStructures(){
+        $query=$this->createQueryBuilder('s')
+            ->leftJoin('s.parent','p')
+            ->select('s.id as key','s.sigle as name','s.nom as title')
+            ->where('p.id IS NULL')
+        ;
+        $query2=$this->createQueryBuilder('s')
+            ->leftJoin('s.parent','p')
+            ->select('s.id as key','s.sigle as name','s.nom as title','p.id as parent')
+            ->where('p.id IS NOT NULL')
+        ;
+        $query = $query->getQuery()->getArrayResult() + $query2->getQuery()->getArrayResult();
+        return $query;
+    }
